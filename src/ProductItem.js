@@ -2,17 +2,28 @@ import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Button, Col, Image, Row } from 'react-bootstrap';
 import Counter from './Counter';
+import { addItem, deleteItem } from './redux/actions/cartActions';
 
-const getButton = (product, isProductInCart, quantity, onAdd, onDelete)  => {
+
+let getButton = ({product, isProductInCart, quantity, onDelete, onAdd})  => {
+
     if(isProductInCart) {
-        return (<Button variant="danger" onClick={() => onDelete(product)}>Remove from Cart</Button>)
+        return (<Button variant="danger" onClick={() => onDelete(product.name)}>Remove from Cart</Button>)
     }
     else {
-        return (<Button variant="warning" onClick={() => onAdd(product, quantity)}>Add to Cart</Button>)
+        return (<Button variant="warning" onClick={() => onAdd(product.name, quantity)}>Add to Cart</Button>)
     }
 }
+const mapDispatchToProps = dispatch => {
+    return {
+        onAdd: (name, quantity) => dispatch(addItem(name, quantity)),
+        onDelete : (name) => dispatch(deleteItem(name)),
+    };
+};
 
-const ProductItem = ({ product, onAdd, onDelete, cart }) => {
+const GetButton = connect(null, mapDispatchToProps)(getButton);
+
+const ProductItem = ({ product, cart }) => {
     
     const isProductInCart = cart.find(item => item.name === product.name);
     let qty = 0;
@@ -32,7 +43,7 @@ const ProductItem = ({ product, onAdd, onDelete, cart }) => {
                 <Counter onChange={(qty) => changeQty(qty)} count={quantity}/>
             </Row>
             <Row className="justify-content-center mt-2">
-               {getButton(product, isProductInCart, quantity, onAdd, onDelete)}
+               <GetButton product={product} isProductInCart={isProductInCart} quantity={quantity} />
             </Row>
         </Col>
     )
@@ -43,7 +54,7 @@ const mapStateToProps = state => {
       cart: state.cart,
     };
   };
-  
+
 export default connect(
     mapStateToProps
   )(ProductItem);

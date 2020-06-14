@@ -18,7 +18,7 @@ const Header = ({ cart }) => {
     let count = cart.length;
     return (
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">iPhone Store</Navbar.Brand>
+            <Navbar.Brand><Link to="/">iPhone Store</Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Form inline>
