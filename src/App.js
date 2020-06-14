@@ -14,13 +14,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      products: [
-        { name: 'iPhone XS Max', image: 'https://images-na.ssl-images-amazon.com/images/I/51ZdmjN52-L._SY879_.jpg' },
-        { name: 'iPhone 11', image: 'https://images-na.ssl-images-amazon.com/images/I/51kGDXeFZKL._SX679_.jpg' },
-        { name: 'iPhone XR', image: 'https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SY879_.jpg' },
-        { name: 'iPhone 11 Pro Max', image: 'https://images-na.ssl-images-amazon.com/images/I/61ers6OzvUL._SX679_.jpg' },
-
-      ],
       cart: []
     }
   }
@@ -37,18 +30,17 @@ class App extends Component {
   }
 
   render() {
-    const { cart, products } = this.state;
     return (
       <Router>
         <Container>
-          <Header cart={cart} />
+          <Header />
           <Switch>
-              <Route path="/cart">
-                <Cart cart={cart} />
-              </Route>
-              <Route path="/">
-              <ProductList products={products} onAdd={this.onAdd} onDelete={this.onDelete} cart={cart} />
-              </Route>
+            <Route path="/cart">
+              <Cart />
+            </Route>
+            <Route path="/">
+              <ProductList />
+            </Route>
           </Switch>
         </Container>
       </Router>

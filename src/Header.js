@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux";
 import { Form, Navbar } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import './Header.css';
@@ -27,5 +28,12 @@ const Header = ({ cart }) => {
         </Navbar>
     )
 }
+const mapStateToProps = state => {
+    return {
+        cart: state.cart,
+    };
+};
 
-export default Header;
+export default connect(
+    mapStateToProps
+)(Header);

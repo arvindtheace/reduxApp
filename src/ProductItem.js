@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux";
 import { Button, Col, Image, Row } from 'react-bootstrap';
 import Counter from './Counter';
 
@@ -37,4 +38,12 @@ const ProductItem = ({ product, onAdd, onDelete, cart }) => {
     )
 }
 
-export default ProductItem;
+const mapStateToProps = state => {
+    return {
+      cart: state.cart,
+    };
+  };
+  
+export default connect(
+    mapStateToProps
+  )(ProductItem);
