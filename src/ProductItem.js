@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Image, Row } from 'react-bootstrap';
 import Counter from './Counter';
 
-const ProductItem = ({ product }) => {
+const getButton = (product, isProductInCart, quantity, onAdd, onDelete)  => {
+    if(isProductInCart) {
+        return (<Button variant="danger" onClick={() => onDelete(product)}>Remove from Cart</Button>)
+    }
+    else {
+        return (<Button variant="warning" onClick={() => onAdd(product, quantity)}>Add to Cart</Button>)
+    }
+}
+
+const ProductItem = ({ product, onAdd, onDelete, cart }) => {
+    
+    const isProductInCart = cart.find(item => item.name === product.name);
+    let qty = 0;
+    if(isProductInCart) {
+        qty = isProductInCart.quantity;
+    }
+    const [quantity, changeQty] = useState(qty);
     return (
         <Col md={3}>
             <Row className="justify-content-center">
@@ -12,10 +28,10 @@ const ProductItem = ({ product }) => {
                 <label>{product.name}</label>
             </Row>
             <Row className="justify-content-center">
-                <Counter />
+                <Counter onChange={(qty) => changeQty(qty)} count={quantity}/>
             </Row>
             <Row className="justify-content-center mt-2">
-                <Button variant="warning">Add To Cart</Button>
+               {getButton(product, isProductInCart, quantity, onAdd, onDelete)}
             </Row>
         </Col>
     )
